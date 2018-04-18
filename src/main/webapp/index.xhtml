@@ -14,22 +14,22 @@
 
 				<h:form id="form">
 					<p:dataTable var="item" value="#{coffeeBean.items}">
-						<p:column headerText="#{msg['index.coffeeGrade']}">
-							<h:outputText value="#{item.type}" />
-						</p:column>
-						<p:column headerText="#{msg['index.price']}">
-							<h:outputText value="#{item.price}" /> TGR
-						</p:column>
-						<p:column headerText="#{msg['index.count']}">
-							<p:inputText id="inputCups" value="#{orderCoffeeBean.enteredCups}"
-										 converterMessage="#{msg['index.validatorMessage']}"
-										 validatorMessage="#{msg['index.validatorMessage']}">
-								<p:ajax event="keyup"
-										listener="#{orderCoffeeBean.addCups(item.id, orderCoffeeBean.enteredCups)}" />
-								<f:validateLongRange minimum="1" maximum="10"/>
-							</p:inputText>
-							<h:message for="inputCups" style="color:red" />
-						</p:column>
+							<p:column headerText="#{msg['index.coffeeGrade']}">
+								<h:outputText value="#{item.type}" />
+							</p:column>
+							<p:column headerText="#{msg['index.price']}">
+								<h:outputText value="#{item.price}" /> TGR
+							</p:column>
+							<p:column headerText="#{msg['index.count']}">
+								<p:inputText id="inputCups" value="#{orderCoffeeBean.enteredCups}"
+											 converterMessage="#{msg['index.validatorMessage']}"
+											 validatorMessage="#{msg['index.validatorMessage']}">
+									<p:ajax event="keyup"
+											listener="#{orderCoffeeBean.addCups(item.id, orderCoffeeBean.enteredCups)}" />
+									<f:validateLongRange minimum="1" maximum="10"/>
+								</p:inputText>
+								<h:message for="inputCups" style="color:red" />
+							</p:column>
 					</p:dataTable>
 					<div>
 						#{msg['index.freeCups']}

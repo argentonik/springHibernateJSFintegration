@@ -30,4 +30,8 @@ public class CoffeeBean extends SpringBeanAutowiringSupport {
     {
         return this.coffeeService.findById(id);
     }
+
+    public CoffeeDAO getCoffeeService() {
+        return coffeeService;
+    }
 }

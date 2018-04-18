@@ -94,5 +94,11 @@
 		<property name="sessionFactory" ref="mySessionFactory"/>
 	</bean>
 
+	<bean id = "orderWithPosition" class = "br.example.helpers.OrderWithPosition"></bean>
+
+	<bean id = "orderFull" class = "br.example.model.OrderFull"></bean>
+
+	<bean id = "orderPosition" class = "br.example.model.OrderPosition"></bean>
+
 
 </beans>

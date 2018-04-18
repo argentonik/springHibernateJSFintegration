@@ -25,7 +25,16 @@ public class CoffeeDAOImpl implements CoffeeDAO {
     @Override
     @Transactional
     public List<Coffee> findAll() {
-        return hibernateTemplate.loadAll(Coffee.class);
+
+        List<Coffee> coffee = hibernateTemplate.loadAll(Coffee.class);
+
+        for(int i = 0; i < coffee.size(); i++) {
+            if(!coffee.get(i).isDisabled()) {
+                coffee.remove(i);
+            }
+        }
+
+        return coffee;
 
     }
 }

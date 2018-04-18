@@ -31,6 +31,8 @@ public class OrderFull {
     @OneToMany(mappedBy = "orderFull")
     private Set<OrderPosition> orderPositions = new HashSet<OrderPosition>();
 
+    public OrderFull() {}
+
     public OrderFull(Date date, String nameClient, String address, Double price) {
         this.date = date;
         this.nameClient = nameClient;

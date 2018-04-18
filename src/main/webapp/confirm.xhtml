@@ -12,9 +12,34 @@
 
     <ui:define name="content">
         <h1>#{msg['confirm.confirm']}</h1>
+        <h2>#{msg['confirm.ourOrders']}</h2>
+        <p:dataTable var="item"
+                     value="#{orders.orderWithPosition}"
+                     paginator="true"
+                     rows="5"
+                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="5,10,15">
+            <p:column headerText="#{msg['confirm.date']}" >
+                <h:outputText value="#{item.orderFull.date}" />
+            </p:column>
+            <p:column headerText="#{msg['new.address']}">
+                <h:outputText value="#{item.orderFull.address}" />
+            </p:column>
+            <p:column headerText="#{msg['index.price']}">
+                <h:outputText value="#{item.orderFull.price}" /> TGR
+            </p:column>
+            <p:column headerText="#{msg['index.count']}">
+                <h:outputText value="#{item.orderPosition.numOfCups}" />
+            </p:column>
+            <p:column headerText="#{msg['index.coffeeGrade']}">
+                <h:outputText value="#{item.orderPosition.coffee.type}"/>
+            </p:column>
+        </p:dataTable>
         <br /><br />
         <a href="index.xhtml">#{msg['confirm.chooseCoffee']}</a>
     </ui:define>
+
+
 </ui:composition>
 </f:view>
 </html>

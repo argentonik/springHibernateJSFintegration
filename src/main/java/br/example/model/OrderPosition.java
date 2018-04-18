@@ -59,4 +59,12 @@ public class OrderPosition {
     public void setCoffee(Coffee coffee) {
         this.coffee = coffee;
     }
+
+    public OrderFull getOrderFull() {
+        return orderFull;
+    }
+
+    public void setOrderFull(OrderFull orderFull) {
+        this.orderFull = orderFull;
+    }
 }

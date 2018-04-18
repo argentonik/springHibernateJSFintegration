@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      lang="#{language.language}">
+
+<f:view locale="#{language.language}">
+<ui:composition template="/application.xhtml">
+    <ui:define name="title">#{msg['new.title']}</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <h4>#{msg['new.delivery']}: </h4>
+            <p:outputLabel value="#{msg['new.name']}:" for="fullName" />
+            <p:autoComplete id="fullName" value="#{orderCoffeeBean.nameClient}"/>
+            <br /><br />
+            <p:outputLabel value="#{msg['new.address']}:" for="address" />
+            <p:autoComplete id="address" value="#{orderCoffeeBean.address}"
+                            required="true" requiredMessage="#{msg['new.requiredMessage']}"
+                            validatorMessage="#{msg['new.validatorMessage']}">
+                <f:validateLength minimum="5" maximum="100"/>
+            </p:autoComplete>
+            <h:message for="address" style="color:red" />
+            <br /><br />
+            <h:commandButton value="#{msg['new.submit']}" type="submit" action="#{orderCoffeeBean.submitOrder}" />
+            <br /><br />
+        </h:form>
+
+        <h3>#{msg['new.yourOrder']}</h3>
+        <p:dataTable var="order" value="#{orderCoffeeBean.orderedCoffee.entrySet().toArray()}">
+            <p:column headerText="#{msg['new.coffeeGrade']}">
+                <h:outputText value="#{order.key.type}" />
+            </p:column>
+            <p:column headerText="#{msg['new.price']}">
+                <h:outputText value="#{order.key.price}" /> TGR
+            </p:column>
+            <p:column headerText="#{msg['new.count']}">
+                <h:outputText value="#{order.value}" />
+            </p:column>
+            <p:column headerText="#{msg['new.total']}">
+                <h:outputText value="#{order.key.price * order.value}" />
+            </p:column>
+        </p:dataTable>
+
+        <br />
+        #{msg['new.totalPrice']}= #{orderCoffeeBean.totalPrice}
+        <br />
+        #{msg['new.deliveryPrice']} = #{orderCoffeeBean.getCostDelivery()}
+        <br />
+        #{msg['new.bothPrice']} = #{orderCoffeeBean.getTotalPriceWithDelivery()}
+        <br /><br />
+        <a href="index.xhtml">#{msg['new.chooseCoffee']}</a>
+    </ui:define>
+</ui:composition>
+</f:view>
+
+</html>

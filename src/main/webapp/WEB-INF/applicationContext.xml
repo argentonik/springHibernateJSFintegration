@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans          
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/context 
+		   http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		   http://www.springframework.org/schema/tx
+		   http://www.springframework.org/schema/tx/spring-tx.xsd">
+	
+    <context:component-scan base-package="br.example"/>
+
+    <context:property-placeholder location="classpath:config.properties" />
+
+	<!--<bean id="priceLogicProperties"-->
+		  <!--class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+
+		<!--<property name="location" value="classpath:config.properties" />-->
+
+	<!--</bean>-->
+    
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    	<property name="driverClassName" value="org.postgresql.Driver" />
+    	<property name="url" value="jdbc:postgresql://localhost:5432/example" />
+    	<property name="username" value="postgres" />
+    	<property name="password" value="postgres" />
+  	</bean>
+    
+    <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    	<property name="packagesToScan" >
+            <list>
+                <value>br.example.model</value>
+            </list>
+        </property>
+    	
+    	<property name="dataSource" ref="dataSource"></property>
+    	        
+    	<property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+    	<property name="persistenceUnitName" value="dev" />
+    	
+    	<property name="jpaProperties">
+         <props>
+            <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+            <prop key="hibernate.hbm2ddl.auto">update</prop>
+            <prop key="hibernate.show_sql">true</prop>
+            <prop key="hibernate.format_sql">false</prop>
+            <prop key="hibernate.use_sql_comments">false</prop>
+            <prop key="hibernate.jdbc.wrap_result_sets">false</prop>
+         </props>
+      </property>
+    </bean>
+
+	<bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+		<property name="showSql" value="true"/>
+		<property name="generateDdl" value="true"/>
+		<property name="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect"/>
+	</bean>
+
+	<bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="emf" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="txManager" proxy-target-class="true" />
+
+	<bean id="mySessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="annotatedClasses">
+			<list>
+				<value>br.example.model.Coffee</value>
+				<value>br.example.model.OrderFull</value>
+				<value>br.example.model.OrderPosition</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect"> org.hibernate.dialect.PostgreSQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="coffeeDAOImpl" class="br.example.db.DAO.CoffeeDAOImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+
+	<bean id="orderDAOImpl" class="br.example.db.DAO.OrderDAOImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+
+	<bean id="orderPositionDAOImpl" class="br.example.db.DAO.OrderPositionDAOImpl">
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+
+
+</beans>

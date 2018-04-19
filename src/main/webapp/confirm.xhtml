@@ -14,11 +14,13 @@
         <h1>#{msg['confirm.confirm']}</h1>
         <h2>#{msg['confirm.ourOrders']}</h2>
         <p:dataTable var="item"
-                     value="#{orders.orderWithPosition}"
+                     value="#{orders.orderPositions}"
                      paginator="true"
                      rows="5"
+
                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                     rowsPerPageTemplate="5,10,15">
+                     rowsPerPageTemplate="5,10, 15"
+                     lazy="true">
             <p:column headerText="#{msg['confirm.date']}" >
                 <h:outputText value="#{item.orderFull.date}" />
             </p:column>
@@ -29,10 +31,10 @@
                 <h:outputText value="#{item.orderFull.price}" /> TGR
             </p:column>
             <p:column headerText="#{msg['index.count']}">
-                <h:outputText value="#{item.orderPosition.numOfCups}" />
+                <h:outputText value="#{item.numOfCups}" />
             </p:column>
             <p:column headerText="#{msg['index.coffeeGrade']}">
-                <h:outputText value="#{item.orderPosition.coffee.type}"/>
+                <h:outputText value="#{item.coffee.type}"/>
             </p:column>
         </p:dataTable>
         <br /><br />
